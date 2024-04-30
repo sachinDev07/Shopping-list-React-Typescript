@@ -1,10 +1,11 @@
+import ShoppingList from "./components/ShoppingList/ShoppingList";
 
 
 function App() {
 
   return (
     <>
-      <div className="text-red-700">Hello World</div>
+      <ShoppingList />
     </>
   )
 }
