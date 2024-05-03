@@ -1,3 +1,4 @@
+import Toast from "../../utils/Toast";
 import Header from "../header/Header";
 import InputItem from "../InputItem/InputItem";
 import ItemList from "../ItemList/ItemList";
@@ -17,6 +18,7 @@ function ShoppingList() {
   return (
     <>
       <Header />
+      <Toast />
       <div className="w-[500px] mx-auto flex flex-col items-center gap-8">
         <InputItem />
         <ItemList items={shoppingItems} />
