@@ -1,51 +1,26 @@
-import { useState } from "react";
+import { useReducer } from "react";
 import Toast from "../../utils/Toast";
 import Header from "../header/Header";
 import InputItem from "../InputItem/InputItem";
 import ItemList from "../ItemList/ItemList";
-import { v4 as uuidv4 } from "uuid";
+import itemReducer from "../reducers/itemReducer";
+import { ActionType, ItemListType } from "../reducers/types";
 
-export type ItemListType = {
-  id: string;
-  name: string;
-  quantity: number;
-}[];
+const initialState: ItemListType[] = [];
 
 function ShoppingList() {
-  const [shoppingItems, setShoppingItems] = useState<ItemListType>([]);
+  const [shoppingItems, dispatch] = useReducer(itemReducer, initialState);
 
-  function handleAddItem(itemName: string) {
-    setShoppingItems([
-      ...shoppingItems,
-      {
-        id: uuidv4(),
-        name: itemName,
-        quantity: 1,
-      },
-    ]);
+  function handleAddItem(name: string) {
+    dispatch({ type: ActionType.ADD_ITEM, payload: { name: name } });
   }
 
-  function handleAddQuantity(itemId: string) {
-    const newShoppingItems = shoppingItems.map((item) => {
-      if (item.id === itemId) {
-        item.quantity++;
-      }
-      return item;
-    });
-
-    setShoppingItems(newShoppingItems);
+  function handleAddQuantity(id: string) {
+    dispatch({ type: ActionType.ADD_QUANTITY, payload: { id: id } });
   }
 
-  function handleDecQuantity(itemId: string) {
-    let newShoppingItems = shoppingItems.map((item) => {
-      if (item.id === itemId) {
-        item.quantity--;
-      }
-      return item;
-    });
-
-    newShoppingItems = newShoppingItems.filter((item) => item.quantity > 0);
-    setShoppingItems(newShoppingItems);
+  function handleDecQuantity(id: string) {
+    dispatch({ type: ActionType.DEC_QUANTITY, payload: { id: id } });
   }
 
   return (
